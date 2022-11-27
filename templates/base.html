@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {% block title %}
+            {% endblock %}
+        </title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+        <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.ico') }}"/>
+        
+        <!-- plugin axios.js -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <!-- plugin uikit -->
+        <link type="text/css" href="{{ url_for('static', filename='plugins/uikit-3.6.18/css/uikit.min.css') }}" rel="stylesheet"/>
+        <script type="text/javascript" src="{{ url_for('static', filename='plugins/uikit-3.6.18/js/uikit.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='plugins/uikit-3.6.18/js/uikit-icons.min.js') }}"></script>
+        
+        {# Global stylesheets #}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+        
+        {% block extra_css %}
+            {# Override this in templates to add extra stylesheets #}
+        {% endblock %}
+    </head>
+    
+    <body class="{% block body_class %}{% endblock %}">
+        <div class="uk-container uk-padding-small">
+            {% block content %}{% endblock %}
+        </div>
+        
+        {# Global javascript #}
+        <!-- plugin vue.js -->
+        <script src="https://unpkg.com/vue@3"></script>
+        
+        {% block extra_js %}
+            {# Override this in templates to add extra javascript #}
+        {% endblock %}
+    </body>
+</html>

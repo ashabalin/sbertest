@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="uk-margin" id="form">
+    <input type="submit" value="Импорт данных: XSLX" @click.prevent="importData($event)" class="uk-button uk-button-primary">
+    <div class="uk-margin uk-grid-small" uk-grid>
+        <div>
+            <input type="submit" value="Экспорт данных: SQL" @click.prevent="exportSQL($event)" class="uk-button uk-button-default">
+        </div>
+        <div>
+            <input type="submit" value="Экспорт данных: PANDAS" @click.prevent="exportPandas($event)" class="uk-button uk-button-default">
+        </div>
+        <div>
+            <input type="number" v-model="lag_num" class="uk-input uk-form-width-small">
+        </div>
+    </div>
+    <div>
+        <pre v-text="resp"></pre>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript">
+const { createApp } = Vue
+
+const app = createApp({
+    data() {
+        return {
+            lag_num: "0",
+            resp: ""
+        }
+    },
+    methods: {
+        importData(event) {
+            var self = this;
+            axios.post('/import/xlsx/')
+            .then(function (response) {
+                // handle success
+                console.log(response.data);
+                self.resp = response.data;
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+        },
+        exportPandas(event) {
+            var self = this;
+            axios.get('/export/pandas/', {params: {lag_num: self.lag_num}})
+            .then(function (response) {
+                // handle success
+                console.log(response.data);
+                self.resp = response.data;
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+        },
+        exportSQL(event) {
+            var self = this;
+            axios.get('/export/sql/', {params: {lag_num: self.lag_num}})
+            .then(function (response) {
+                // handle success
+                console.log(response.data);
+                self.resp = response.data;
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+        },
+    },
+    delimiters: ["[[","]]"],
+});
+
+const vm = app.mount("#form");
+</script>
+{% endblock %}
